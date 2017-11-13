@@ -1,6 +1,7 @@
-package nl.ordina.jtech.arjava.communication;
+package nl.ordina.jtech.arjava.drone;
 
 import nl.ordina.jtech.arjava.commands.*;
+import nl.ordina.jtech.arjava.communication.CommandChannel;
 
 import java.util.LinkedList;
 import java.util.Queue;

@@ -1,7 +1,5 @@
 package nl.ordina.jtech.arjava.drone;
 
-import nl.ordina.jtech.arjava.communication.CommandDispatcher;
-
 public class RemoteController implements Runnable {
     private static final int COMMAND_INTERVAL = 30;
     private float requestedPitch;

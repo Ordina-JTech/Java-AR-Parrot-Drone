@@ -1,7 +1,6 @@
 package nl.ordina.jtech.arjava.drone;
 
 import javafx.scene.image.ImageView;
-import nl.ordina.jtech.arjava.communication.CommandDispatcher;
 import nl.ordina.jtech.arjava.video.VideoReceiver;
 
 public class Drone {
@@ -10,17 +9,14 @@ public class Drone {
     private VideoReceiver videoReceiver;
     private boolean connectedToDrone;
     private boolean inManualControl;
-    private Thread communicationThread;
-    private Thread remoteControlThread;
-    private Thread videoReceiverThread;
+    Thread communicationThread;
+    Thread remoteControlThread;
+    Thread videoReceiverThread;
 
     public Drone() {
         commandDispatcher = new CommandDispatcher();
         remoteController = new RemoteController(commandDispatcher);
         videoReceiver = new VideoReceiver();
-        communicationThread = new Thread(commandDispatcher);
-        remoteControlThread = new Thread(remoteController);
-        videoReceiverThread = new Thread(videoReceiver);
         connectedToDrone = false;
     }
 
@@ -51,19 +47,32 @@ public class Drone {
     public void connectToDrone() {
         if (!connectedToDrone) {
             commandDispatcher.enable();
+            Thread communicationThread = new Thread(commandDispatcher);
             communicationThread.start();
             connectedToDrone = true;
         }
     }
 
     public void disconnectFromDrone() {
+        stopCamera();
+        disableManualControl();
         commandDispatcher.disable();
+
+        try {
+            if (communicationThread != null) {
+                communicationThread.join(3000);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         connectedToDrone = false;
     }
 
     public void enableManualControl() {
         if (connectedToDrone) {
             remoteController.enable();
+            Thread remoteControlThread = new Thread(remoteController);
             remoteControlThread.start();
             inManualControl = true;
         }
@@ -71,6 +80,15 @@ public class Drone {
 
     public void disableManualControl() {
         remoteController.disable();
+
+        try {
+            if (remoteControlThread != null) {
+                remoteControlThread.join(3000);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         inManualControl = false;
     }
 
@@ -84,10 +102,19 @@ public class Drone {
 
     public void startCamera(ImageView imageView) {
         videoReceiver.setImageView(imageView);
+        Thread videoReceiverThread = new Thread(videoReceiver);
         videoReceiverThread.start();
     }
 
     public void stopCamera() {
         videoReceiver.requestStop();
+
+        try {
+            if (videoReceiverThread != null) {
+                videoReceiverThread.join(3000);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
