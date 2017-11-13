@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane onKeyPressed="#onKeyPressed" onKeyReleased="#onKeyReleased" prefHeight="498.0" prefWidth="1099.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.ordina.jtech.arjava.gui.MainWindow">
+<AnchorPane onKeyPressed="#onKeyPressed" onKeyReleased="#onKeyReleased" prefHeight="498.0" prefWidth="1099.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.ordina.jtech.arjava.gui.Controller">
     <Button fx:id="inputConnect" layoutX="20" layoutY="20" onAction="#inputConnectToDrone" prefHeight="47.0" prefWidth="120.0" text="Connect" />
     <Button fx:id="inputDisconnect" disable="true" layoutX="160.0" layoutY="20.0" onAction="#inputDisconnectFromDrone" prefHeight="47.0" prefWidth="120.0" text="Disconnect" />
     <Button fx:id="inputTakeOff" disable="true" layoutX="300.0" layoutY="20.0" onAction="#inputDroneTakeOff" prefHeight="47.0" prefWidth="120.0" text="Take off" />
