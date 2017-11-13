@@ -9,9 +9,9 @@ public class Drone {
     private VideoReceiver videoReceiver;
     private boolean connectedToDrone;
     private boolean inManualControl;
-    Thread communicationThread;
-    Thread remoteControlThread;
-    Thread videoReceiverThread;
+    private Thread communicationThread;
+    private Thread remoteControlThread;
+    private Thread videoReceiverThread;
 
     public Drone() {
         commandDispatcher = new CommandDispatcher();
@@ -47,7 +47,7 @@ public class Drone {
     public void connectToDrone() {
         if (!connectedToDrone) {
             commandDispatcher.enable();
-            Thread communicationThread = new Thread(commandDispatcher);
+            communicationThread = new Thread(commandDispatcher);
             communicationThread.start();
             connectedToDrone = true;
         }
@@ -72,7 +72,7 @@ public class Drone {
     public void enableManualControl() {
         if (connectedToDrone) {
             remoteController.enable();
-            Thread remoteControlThread = new Thread(remoteController);
+            remoteControlThread = new Thread(remoteController);
             remoteControlThread.start();
             inManualControl = true;
         }
@@ -102,7 +102,7 @@ public class Drone {
 
     public void startCamera(ImageView imageView) {
         videoReceiver.setImageView(imageView);
-        Thread videoReceiverThread = new Thread(videoReceiver);
+        videoReceiverThread = new Thread(videoReceiver);
         videoReceiverThread.start();
     }
 

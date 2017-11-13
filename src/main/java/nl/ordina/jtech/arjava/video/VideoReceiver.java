@@ -146,6 +146,12 @@ public class VideoReceiver implements Runnable {
             container = null;
         }
 
+        Platform.runLater(new Runnable() {
+            public void run() {
+                imageView.setImage(null);
+            }
+        });
+
         videoChannel.disconnectFromDrone();
     }
 
