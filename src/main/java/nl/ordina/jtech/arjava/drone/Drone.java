@@ -1,22 +1,27 @@
 package nl.ordina.jtech.arjava.drone;
 
 import javafx.scene.image.ImageView;
+import nl.ordina.jtech.arjava.gui.UltrasonicData;
 import nl.ordina.jtech.arjava.video.VideoReceiver;
+import sun.management.Sensor;
 
 public class Drone {
     private CommandDispatcher commandDispatcher;
     private RemoteController remoteController;
     private VideoReceiver videoReceiver;
+    private SensorDataReceiver sensorDataReceiver;
     private boolean connectedToDrone;
     private boolean inManualControl;
     private Thread communicationThread;
     private Thread remoteControlThread;
     private Thread videoReceiverThread;
+    private Thread sensorDataThread;
 
     public Drone() {
         commandDispatcher = new CommandDispatcher();
         remoteController = new RemoteController(commandDispatcher);
         videoReceiver = new VideoReceiver();
+        sensorDataReceiver = new SensorDataReceiver();
         connectedToDrone = false;
     }
 
@@ -56,6 +61,7 @@ public class Drone {
     public void disconnectFromDrone() {
         stopCamera();
         disableManualControl();
+        stopUltrasonicData();
         commandDispatcher.disable();
 
         try {
@@ -112,6 +118,24 @@ public class Drone {
         try {
             if (videoReceiverThread != null) {
                 videoReceiverThread.join(3000);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void startUltrasonicData(UltrasonicData ultrasonicData) {
+        sensorDataReceiver.setUltrasonicData(ultrasonicData);
+        sensorDataThread = new Thread(sensorDataReceiver);
+        sensorDataThread.start();
+    }
+
+    public void stopUltrasonicData() {
+        sensorDataReceiver.requestStop();
+
+        try {
+            if (sensorDataThread != null) {
+                sensorDataThread.join(3000);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

@@ -10,49 +10,58 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import nl.ordina.jtech.arjava.drone.Drone;
 
-public class Controller {
+public class FXMLController {
     private Drone drone;
+    private UltrasonicData ultrasonicData;
 
-    @FXML Button inputConnect;
-    @FXML Button inputDisconnect;
-    @FXML Button inputTakeOff;
-    @FXML Button inputLand;
-    @FXML Button inputStartCamera;
-    @FXML Button inputStopCamera;
-    @FXML Label labelRotateCounterClockwise;
-    @FXML Label labelMoveForward;
-    @FXML Label labelRotateClockwise;
-    @FXML Label labelIncreaseHeight;
-    @FXML Label labelMoveLeft;
-    @FXML Label labelMoveBackwards;
-    @FXML Label labelMoveRight;
-    @FXML Label labelDecreaseHeight;
-    @FXML CheckBox checkboxManualControl;
-    @FXML ImageView imageViewCamera;
+    @FXML private Button inputConnect;
+    @FXML private Button inputDisconnect;
+    @FXML private Button inputTakeOff;
+    @FXML private Button inputLand;
+    @FXML private Button inputStartCamera;
+    @FXML private Button inputStopCamera;
+    @FXML private Label labelRotateCounterClockwise;
+    @FXML private Label labelMoveForward;
+    @FXML private Label labelRotateClockwise;
+    @FXML private Label labelIncreaseHeight;
+    @FXML private Label labelMoveLeft;
+    @FXML private Label labelMoveBackwards;
+    @FXML private Label labelMoveRight;
+    @FXML private Label labelDecreaseHeight;
+    @FXML private CheckBox checkboxManualControl;
+    @FXML private ImageView imageViewCamera;
+    @FXML private CheckBox checkboxUltrasonicData;
+    @FXML private Label labelUltrasonicFront;
+    @FXML private Label labelUltrasonicLeft;
+    @FXML private Label labelUltrasonicRight;
+    @FXML private Label labelUltrasonicBack;
+    @FXML private Label labelUltrasonicTop;
 
-    public Controller() {
-        initializeDrone();
+
+    public FXMLController() {
+        initialize();
     }
 
-    public void initializeDrone() {
+    private void initialize() {
         drone = new Drone();
     }
 
     @FXML
-    public void inputDroneTakeOff() {
+    private void inputDroneTakeOff() {
         drone.takeOff();
     }
 
     @FXML
-    public void inputDroneLand() {
+    private void inputDroneLand() {
         drone.land();
     }
 
     @FXML
-    void inputConnectToDrone() {
+    private void inputConnectToDrone() {
         drone.connectToDrone();
         inputConnect.setDisable(true);
         checkboxManualControl.setDisable(false);
+        checkboxUltrasonicData.setDisable(false);
         inputDisconnect.setDisable(false);
         inputTakeOff.setDisable(false);
         inputLand.setDisable(false);
@@ -61,11 +70,14 @@ public class Controller {
     }
 
     @FXML
-    void inputDisconnectFromDrone() {
+    private void inputDisconnectFromDrone() {
         inputConnect.setDisable(false);
         checkboxManualControl.setSelected(false);
+        checkboxUltrasonicData.setSelected(false);
         drone.disconnectFromDrone();
         checkboxManualControl.setDisable(true);
+        checkboxUltrasonicData.setDisable(true);
+        ultrasonicData.resetLabels();
         inputDisconnect.setDisable(true);
         inputTakeOff.setDisable(true);
         inputLand.setDisable(true);
@@ -74,7 +86,7 @@ public class Controller {
     }
 
     @FXML
-    void inputManualControl() {
+    private void inputManualControl() {
         if (checkboxManualControl.isSelected()) {
             drone.enableManualControl();
         } else {
@@ -83,7 +95,19 @@ public class Controller {
     }
 
     @FXML
-    void onKeyPressed(final KeyEvent keyEvent) {
+    private void inputUltrasonicData() {
+        if (checkboxUltrasonicData.isSelected()) {
+            ultrasonicData = new UltrasonicData(labelUltrasonicFront, labelUltrasonicLeft,
+                    labelUltrasonicRight, labelUltrasonicBack, labelUltrasonicTop);
+            drone.startUltrasonicData(ultrasonicData);
+        } else {
+            drone.stopUltrasonicData();
+            ultrasonicData.resetLabels();
+        }
+    }
+
+    @FXML
+    private void onKeyPressed(final KeyEvent keyEvent) {
         if (!drone.isInManualControl()) {
             return;
         }
@@ -130,7 +154,7 @@ public class Controller {
     }
 
     @FXML
-    void onKeyReleased(final KeyEvent keyEvent) {
+    private void onKeyReleased(final KeyEvent keyEvent) {
         if (!drone.isInManualControl()) {
             return;
         }
@@ -169,12 +193,12 @@ public class Controller {
     }
 
     @FXML
-    void inputStartCamera() {
+    private void inputStartCamera() {
         drone.startCamera(imageViewCamera);
     }
 
     @FXML
-    void inputStopCamera() {
+    private void inputStopCamera() {
         drone.stopCamera();
     }
 }
