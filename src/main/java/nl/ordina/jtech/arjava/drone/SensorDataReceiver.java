@@ -30,6 +30,12 @@ public class SensorDataReceiver implements Runnable {
                 e.printStackTrace();
             }
         }
+
+        Platform.runLater(new Runnable() {
+            public void run() {
+                ultrasonicData.resetLabels();
+            }
+        });
     }
 
     public void requestStop() {

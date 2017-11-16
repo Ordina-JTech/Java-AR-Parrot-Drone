@@ -3,6 +3,7 @@ package nl.ordina.jtech.arjava.video;
 import com.xuggle.xuggler.*;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import nl.ordina.jtech.arjava.communication.VideoChannel;
 
@@ -148,7 +149,7 @@ public class VideoReceiver implements Runnable {
 
         Platform.runLater(new Runnable() {
             public void run() {
-                imageView.setImage(null);
+                imageView.setImage(new Image(getClass().getResource("/camera_black_background.png").toString()));
             }
         });
 

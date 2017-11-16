@@ -1,5 +1,6 @@
 package nl.ordina.jtech.arjava.gui;
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -9,6 +10,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import nl.ordina.jtech.arjava.drone.Drone;
+
+import java.awt.image.BufferedImage;
 
 public class FXMLController {
     private Drone drone;
@@ -67,6 +70,8 @@ public class FXMLController {
         inputLand.setDisable(false);
         inputStartCamera.setDisable(false);
         inputStopCamera.setDisable(false);
+        ultrasonicData = new UltrasonicData(labelUltrasonicFront, labelUltrasonicLeft,
+                labelUltrasonicRight, labelUltrasonicBack, labelUltrasonicTop);
     }
 
     @FXML
@@ -97,12 +102,9 @@ public class FXMLController {
     @FXML
     private void inputUltrasonicData() {
         if (checkboxUltrasonicData.isSelected()) {
-            ultrasonicData = new UltrasonicData(labelUltrasonicFront, labelUltrasonicLeft,
-                    labelUltrasonicRight, labelUltrasonicBack, labelUltrasonicTop);
             drone.startUltrasonicData(ultrasonicData);
         } else {
             drone.stopUltrasonicData();
-            ultrasonicData.resetLabels();
         }
     }
 
