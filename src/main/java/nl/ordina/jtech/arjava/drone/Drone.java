@@ -1,6 +1,7 @@
 package nl.ordina.jtech.arjava.drone;
 
 import javafx.scene.image.ImageView;
+import nl.ordina.jtech.arjava.gui.DroneControlFeedback;
 import nl.ordina.jtech.arjava.gui.UltrasonicData;
 import nl.ordina.jtech.arjava.video.VideoReceiver;
 import sun.management.Sensor;
@@ -31,6 +32,10 @@ public class Drone {
 
     public boolean isInManualControl() {
         return inManualControl;
+    }
+
+    public void setDroneControlFeedback(DroneControlFeedback droneControlFeedback) {
+        remoteController.setDroneControlFeedback(droneControlFeedback);
     }
 
     public void setRequestedPitch(float requestedPitch) {

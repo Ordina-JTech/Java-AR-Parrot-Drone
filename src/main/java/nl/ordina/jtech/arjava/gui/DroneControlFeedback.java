@@ -1,5 +1,6 @@
 package nl.ordina.jtech.arjava.gui;
 
+import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 
@@ -28,74 +29,153 @@ public class DroneControlFeedback {
     }
 
     public void counterClockwiseOn() {
-        labelRotateCounterClockwise.setTextFill(Color.LIMEGREEN);
-        labelRotateClockwise.setTextFill(Color.BLACK);
+        Platform.runLater(new Runnable() {
+            public void run() {
+                labelRotateCounterClockwise.setTextFill(Color.LIMEGREEN);
+                labelRotateClockwise.setTextFill(Color.BLACK);
+            }
+        });
     }
 
     public void forwardOn() {
-        labelMoveForward.setTextFill(Color.LIMEGREEN);
-        labelMoveBackwards.setTextFill(Color.BLACK);
+        Platform.runLater(new Runnable() {
+            public void run() {
+                labelMoveForward.setTextFill(Color.LIMEGREEN);
+                labelMoveBackwards.setTextFill(Color.BLACK);
+            }
+        });
     }
 
     public void clockwiseOn() {
-        labelRotateClockwise.setTextFill(Color.LIMEGREEN);
-        labelRotateCounterClockwise.setTextFill(Color.BLACK);
+        Platform.runLater(new Runnable() {
+            public void run() {
+                labelRotateClockwise.setTextFill(Color.LIMEGREEN);
+                labelRotateCounterClockwise.setTextFill(Color.BLACK);
+            }
+        });
     }
 
     public void upOn() {
-        labelIncreaseHeight.setTextFill(Color.LIMEGREEN);
-        labelDecreaseHeight.setTextFill(Color.BLACK);
+        Platform.runLater(new Runnable() {
+            public void run() {
+                labelIncreaseHeight.setTextFill(Color.LIMEGREEN);
+                labelDecreaseHeight.setTextFill(Color.BLACK);
+            }
+        });
     }
 
     public void leftOn() {
-        labelMoveLeft.setTextFill(Color.LIMEGREEN);
-        labelMoveRight.setTextFill(Color.BLACK);
+        Platform.runLater(new Runnable() {
+            public void run() {
+                labelMoveLeft.setTextFill(Color.LIMEGREEN);
+                labelMoveRight.setTextFill(Color.BLACK);
+            }
+        });
     }
 
     public void backwardsOn() {
-        labelMoveBackwards.setTextFill(Color.LIMEGREEN);
-        labelMoveForward.setTextFill(Color.BLACK);
+        Platform.runLater(new Runnable() {
+            public void run() {
+                labelMoveBackwards.setTextFill(Color.LIMEGREEN);
+                labelMoveForward.setTextFill(Color.BLACK);
+            }
+        });
     }
 
     public void rightOn() {
-        labelMoveRight.setTextFill(Color.LIMEGREEN);
-        labelMoveLeft.setTextFill(Color.BLACK);
+        Platform.runLater(new Runnable() {
+            public void run() {
+                labelMoveRight.setTextFill(Color.LIMEGREEN);
+                labelMoveLeft.setTextFill(Color.BLACK);
+            }
+        });
     }
 
     public void downOn() {
-        labelDecreaseHeight.setTextFill(Color.LIMEGREEN);
-        labelIncreaseHeight.setTextFill(Color.BLACK);
+        Platform.runLater(new Runnable() {
+            public void run() {
+                labelDecreaseHeight.setTextFill(Color.LIMEGREEN);
+                labelIncreaseHeight.setTextFill(Color.BLACK);
+            }
+        });
     }
 
     public void counterClockwiseOff() {
-        labelRotateCounterClockwise.setTextFill(Color.BLACK);
+        Platform.runLater(new Runnable() {
+            public void run() {
+                labelRotateCounterClockwise.setTextFill(Color.BLACK);
+            }
+        });
     }
 
     public void forwardOff() {
-        labelMoveForward.setTextFill(Color.BLACK);
+        Platform.runLater(new Runnable() {
+            public void run() {
+                labelMoveForward.setTextFill(Color.BLACK);
+            }
+        });
     }
 
     public void clockwiseOff() {
-        labelRotateClockwise.setTextFill(Color.BLACK);
+        Platform.runLater(new Runnable() {
+            public void run() {
+                labelRotateClockwise.setTextFill(Color.BLACK);
+            }
+        });
     }
 
     public void upOff() {
-        labelIncreaseHeight.setTextFill(Color.BLACK);
+        Platform.runLater(new Runnable() {
+            public void run() {
+                labelIncreaseHeight.setTextFill(Color.BLACK);
+            }
+        });
     }
 
     public void leftOff() {
-        labelMoveLeft.setTextFill(Color.BLACK);
+        Platform.runLater(new Runnable() {
+            public void run() {
+                labelMoveLeft.setTextFill(Color.BLACK);
+            }
+        });
     }
 
     public void backwardsOff() {
-        labelMoveBackwards.setTextFill(Color.BLACK);
+        Platform.runLater(new Runnable() {
+            public void run() {
+                labelMoveBackwards.setTextFill(Color.BLACK);
+            }
+        });
     }
 
     public void rightOff() {
-        labelMoveRight.setTextFill(Color.BLACK);
+        Platform.runLater(new Runnable() {
+            public void run() {
+                labelMoveRight.setTextFill(Color.BLACK);
+            }
+        });
     }
 
     public void downOff() {
-        labelDecreaseHeight.setTextFill(Color.BLACK);
+        Platform.runLater(new Runnable() {
+            public void run() {
+                labelDecreaseHeight.setTextFill(Color.BLACK);
+            }
+        });
+    }
+
+    public void reset() {
+        Platform.runLater(new Runnable() {
+            public void run() {
+                labelRotateCounterClockwise.setTextFill(Color.BLACK);
+                labelMoveForward.setTextFill(Color.BLACK);
+                labelRotateClockwise.setTextFill(Color.BLACK);
+                labelIncreaseHeight.setTextFill(Color.BLACK);
+                labelMoveLeft.setTextFill(Color.BLACK);
+                labelMoveBackwards.setTextFill(Color.BLACK);
+                labelMoveRight.setTextFill(Color.BLACK);
+                labelDecreaseHeight.setTextFill(Color.BLACK);
+            }
+        });
     }
 }

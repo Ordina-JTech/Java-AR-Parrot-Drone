@@ -76,6 +76,7 @@ public class FXMLController {
         droneControlFeedback = new DroneControlFeedback(labelRotateCounterClockwise,
                 labelMoveForward, labelRotateClockwise, labelIncreaseHeight,
                 labelMoveLeft, labelMoveBackwards, labelMoveRight, labelDecreaseHeight);
+        drone.setDroneControlFeedback(droneControlFeedback);
     }
 
     @FXML
@@ -118,35 +119,27 @@ public class FXMLController {
             return;
         }
         if (keyEvent.getCode() == KeyCode.Q) {
-            droneControlFeedback.counterClockwiseOn();
             drone.setRequestedRotate(-0.1F);
         }
         if (keyEvent.getCode() == KeyCode.W) {
-            droneControlFeedback.forwardOn();
             drone.setRequestedPitch(-0.1F);
         }
         if (keyEvent.getCode() == KeyCode.E) {
-            droneControlFeedback.clockwiseOn();
             drone.setRequestedRotate(0.1F);
         }
         if (keyEvent.getCode() == KeyCode.R) {
-            droneControlFeedback.upOn();
             drone.setRequestedGaz(0.1F);
         }
         if (keyEvent.getCode() == KeyCode.A) {
-            droneControlFeedback.leftOn();
             drone.setRequestedRoll(-0.1F);
         }
         if (keyEvent.getCode() == KeyCode.S) {
-            droneControlFeedback.backwardsOn();
             drone.setRequestedPitch(0.1F);
         }
         if (keyEvent.getCode() == KeyCode.D) {
-            droneControlFeedback.rightOn();
             drone.setRequestedRoll(0.1F);
         }
         if (keyEvent.getCode() == KeyCode.F) {
-            droneControlFeedback.downOn();
             drone.setRequestedGaz(-0.1F);
         }
     }
@@ -157,35 +150,27 @@ public class FXMLController {
             return;
         }
         if (keyEvent.getCode() == KeyCode.Q) {
-            droneControlFeedback.counterClockwiseOff();
             drone.setRequestedRotate(0);
         }
         if (keyEvent.getCode() == KeyCode.W) {
-            droneControlFeedback.forwardOff();
             drone.setRequestedPitch(0);
         }
         if (keyEvent.getCode() == KeyCode.E) {
-            droneControlFeedback.clockwiseOff();
             drone.setRequestedRotate(0);
         }
         if (keyEvent.getCode() == KeyCode.R) {
-            droneControlFeedback.upOff();
             drone.setRequestedGaz(0);
         }
         if (keyEvent.getCode() == KeyCode.A) {
-            droneControlFeedback.leftOff();
             drone.setRequestedRoll(0);
         }
         if (keyEvent.getCode() == KeyCode.S) {
-            droneControlFeedback.backwardsOff();
             drone.setRequestedPitch(0);
         }
         if (keyEvent.getCode() == KeyCode.D) {
-            droneControlFeedback.rightOff();
             drone.setRequestedRoll(0);
         }
         if (keyEvent.getCode() == KeyCode.F) {
-            droneControlFeedback.downOff();
             drone.setRequestedGaz(0);
         }
     }
