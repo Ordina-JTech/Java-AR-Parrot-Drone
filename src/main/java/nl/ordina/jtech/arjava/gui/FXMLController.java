@@ -16,6 +16,7 @@ import java.awt.image.BufferedImage;
 public class FXMLController {
     private Drone drone;
     private UltrasonicData ultrasonicData;
+    private DroneControlFeedback droneControlFeedback;
 
     @FXML private Button inputConnect;
     @FXML private Button inputDisconnect;
@@ -72,6 +73,9 @@ public class FXMLController {
         inputStopCamera.setDisable(false);
         ultrasonicData = new UltrasonicData(labelUltrasonicFront, labelUltrasonicLeft,
                 labelUltrasonicRight, labelUltrasonicBack, labelUltrasonicTop);
+        droneControlFeedback = new DroneControlFeedback(labelRotateCounterClockwise,
+                labelMoveForward, labelRotateClockwise, labelIncreaseHeight,
+                labelMoveLeft, labelMoveBackwards, labelMoveRight, labelDecreaseHeight);
     }
 
     @FXML
@@ -114,43 +118,35 @@ public class FXMLController {
             return;
         }
         if (keyEvent.getCode() == KeyCode.Q) {
-            labelRotateCounterClockwise.setTextFill(Color.LIMEGREEN);
-            labelRotateClockwise.setTextFill(Color.BLACK);
+            droneControlFeedback.counterClockwiseOn();
             drone.setRequestedRotate(-0.1F);
         }
         if (keyEvent.getCode() == KeyCode.W) {
-            labelMoveForward.setTextFill(Color.LIMEGREEN);
-            labelMoveBackwards.setTextFill(Color.BLACK);
+            droneControlFeedback.forwardOn();
             drone.setRequestedPitch(-0.1F);
         }
         if (keyEvent.getCode() == KeyCode.E) {
-            labelRotateClockwise.setTextFill(Color.LIMEGREEN);
-            labelRotateCounterClockwise.setTextFill(Color.BLACK);
+            droneControlFeedback.clockwiseOn();
             drone.setRequestedRotate(0.1F);
         }
         if (keyEvent.getCode() == KeyCode.R) {
-            labelIncreaseHeight.setTextFill(Color.LIMEGREEN);
-            labelDecreaseHeight.setTextFill(Color.BLACK);
+            droneControlFeedback.upOn();
             drone.setRequestedGaz(0.1F);
         }
         if (keyEvent.getCode() == KeyCode.A) {
-            labelMoveLeft.setTextFill(Color.LIMEGREEN);
-            labelMoveRight.setTextFill(Color.BLACK);
+            droneControlFeedback.leftOn();
             drone.setRequestedRoll(-0.1F);
         }
         if (keyEvent.getCode() == KeyCode.S) {
-            labelMoveBackwards.setTextFill(Color.LIMEGREEN);
-            labelMoveForward.setTextFill(Color.BLACK);
+            droneControlFeedback.backwardsOn();
             drone.setRequestedPitch(0.1F);
         }
         if (keyEvent.getCode() == KeyCode.D) {
-            labelMoveRight.setTextFill(Color.LIMEGREEN);
-            labelMoveLeft.setTextFill(Color.BLACK);
+            droneControlFeedback.rightOn();
             drone.setRequestedRoll(0.1F);
         }
         if (keyEvent.getCode() == KeyCode.F) {
-            labelDecreaseHeight.setTextFill(Color.LIMEGREEN);
-            labelIncreaseHeight.setTextFill(Color.BLACK);
+            droneControlFeedback.downOn();
             drone.setRequestedGaz(-0.1F);
         }
     }
@@ -161,35 +157,35 @@ public class FXMLController {
             return;
         }
         if (keyEvent.getCode() == KeyCode.Q) {
-            labelRotateCounterClockwise.setTextFill(Color.BLACK);
+            droneControlFeedback.counterClockwiseOff();
             drone.setRequestedRotate(0);
         }
         if (keyEvent.getCode() == KeyCode.W) {
-            labelMoveForward.setTextFill(Color.BLACK);
+            droneControlFeedback.forwardOff();
             drone.setRequestedPitch(0);
         }
         if (keyEvent.getCode() == KeyCode.E) {
-            labelRotateClockwise.setTextFill(Color.BLACK);
+            droneControlFeedback.clockwiseOff();
             drone.setRequestedRotate(0);
         }
         if (keyEvent.getCode() == KeyCode.R) {
-            labelIncreaseHeight.setTextFill(Color.BLACK);
+            droneControlFeedback.upOff();
             drone.setRequestedGaz(0);
         }
         if (keyEvent.getCode() == KeyCode.A) {
-            labelMoveLeft.setTextFill(Color.BLACK);
+            droneControlFeedback.leftOff();
             drone.setRequestedRoll(0);
         }
         if (keyEvent.getCode() == KeyCode.S) {
-            labelMoveBackwards.setTextFill(Color.BLACK);
+            droneControlFeedback.backwardsOff();
             drone.setRequestedPitch(0);
         }
         if (keyEvent.getCode() == KeyCode.D) {
-            labelMoveRight.setTextFill(Color.BLACK);
+            droneControlFeedback.rightOff();
             drone.setRequestedRoll(0);
         }
         if (keyEvent.getCode() == KeyCode.F) {
-            labelDecreaseHeight.setTextFill(Color.BLACK);
+            droneControlFeedback.downOff();
             drone.setRequestedGaz(0);
         }
     }
