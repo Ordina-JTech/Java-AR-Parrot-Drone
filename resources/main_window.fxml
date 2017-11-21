@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane onKeyPressed="#onKeyPressed" onKeyReleased="#onKeyReleased" prefHeight="800.0" prefWidth="1280" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.ordina.jtech.arjava.gui.FXMLController">
+<AnchorPane onKeyPressed="#onKeyPressed" onKeyReleased="#onKeyReleased" prefHeight="800.0" prefWidth="1280" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.ordina.jtech.arjava.gui.FXMLController">
     <Button fx:id="inputConnect" layoutX="20" layoutY="20" onAction="#inputConnectToDrone" prefHeight="47.0" prefWidth="120.0" text="Connect" />
     <Button fx:id="inputDisconnect" disable="true" layoutX="160.0" layoutY="20.0" onAction="#inputDisconnectFromDrone" prefHeight="47.0" prefWidth="120.0" text="Disconnect" />
     <Button fx:id="inputTakeOff" disable="true" layoutX="300.0" layoutY="20.0" onAction="#inputDroneTakeOff" prefHeight="47.0" prefWidth="120.0" text="Take off" />
@@ -21,42 +21,42 @@
             <Font name="DejaVu Sans Bold" size="15.0" />
         </font>
     </Label>
-    <Label fx:id="labelRotateCounterClockwise" layoutX="20.0" layoutY="158.0" prefHeight="45.0" prefWidth="45.0" text="⟲">
+    <Label fx:id="labelRotateCounterClockwise" alignment="CENTER" layoutX="20.0" layoutY="158.0" prefHeight="45.0" prefWidth="45.0" text="⟲">
       <font>
          <Font size="61.0" />
       </font>
    </Label>
-    <Label fx:id="labelMoveForward" layoutX="105.0" layoutY="158.0" prefHeight="75.0" prefWidth="35.0" text="🡑">
+    <Label fx:id="labelMoveForward" alignment="CENTER" layoutX="99.0" layoutY="158.0" prefHeight="45.0" prefWidth="45.0" text="↑">
         <font>
             <Font size="61.0" />
         </font>
     </Label>
-    <Label fx:id="labelRotateClockwise" layoutX="178.0" layoutY="158.0" prefHeight="45.0" prefWidth="45.0" text="⟳">
+    <Label fx:id="labelRotateClockwise" alignment="CENTER" layoutX="178.0" layoutY="158.0" prefHeight="45.0" prefWidth="45.0" text="⟳">
         <font>
             <Font size="61.0" />
         </font>
     </Label>
-    <Label fx:id="labelIncreaseHeight" layoutX="178.0" layoutY="308.0" prefHeight="45.0" prefWidth="45.0" text="⤉">
+    <Label fx:id="labelIncreaseHeight" alignment="CENTER" contentDisplay="CENTER" layoutX="178.0" layoutY="308.0" prefHeight="45.0" prefWidth="45.0" text="⤉">
         <font>
             <Font size="61.0" />
         </font>
     </Label>
-    <Label fx:id="labelMoveLeft" layoutX="20.0" layoutY="233.0" prefHeight="45.0" prefWidth="45.0" text="🡐">
+    <Label fx:id="labelMoveLeft" alignment="CENTER" layoutX="20.0" layoutY="233.0" prefHeight="45.0" prefWidth="45.0" text="←">
         <font>
             <Font size="61.0" />
         </font>
     </Label>
-    <Label fx:id="labelMoveBackwards" layoutX="105.0" layoutY="308.0" prefHeight="45.0" prefWidth="37.0" text="🡓">
+    <Label fx:id="labelMoveBackwards" alignment="CENTER" layoutX="99.0" layoutY="308.0" prefHeight="45.0" prefWidth="45.0" text="↓">
         <font>
             <Font size="61.0" />
         </font>
     </Label>
-    <Label fx:id="labelMoveRight" layoutX="176.0" layoutY="233.0" prefHeight="45.0" prefWidth="45.0" text="🡒">
+    <Label fx:id="labelMoveRight" alignment="CENTER" layoutX="176.0" layoutY="233.0" prefHeight="45.0" prefWidth="45.0" text="→">
         <font>
             <Font size="61.0" />
         </font>
     </Label>
-    <Label fx:id="labelDecreaseHeight" layoutX="20.0" layoutY="308.0" prefHeight="45.0" prefWidth="45.0" text="⤈">
+    <Label fx:id="labelDecreaseHeight" alignment="CENTER" layoutX="20.0" layoutY="308.0" prefHeight="45.0" prefWidth="45.0" text="⤈">
         <font>
             <Font size="61.0" />
         </font>
