@@ -11,6 +11,7 @@ public class CommandDispatcher implements Runnable {
     private CommandChannel commandChannel;
     private Queue<ATCommand> commandQueue;
     private boolean enabled;
+    private long lastCommandTime;
 
     public CommandDispatcher() {
         commandChannel = new CommandChannel();
@@ -18,19 +19,18 @@ public class CommandDispatcher implements Runnable {
     }
 
     public void run() {
+        lastCommandTime = 0;
         while(enabled) {
             while(!commandQueue.isEmpty()) {
                 commandChannel.sendCommand(commandQueue.poll());
-            }
-
-            try {
-                Thread.sleep(WATCHDOG_INTERVAL);
-            } catch(InterruptedException e) {
-                System.out.println(e.getMessage());
+                lastCommandTime = System.currentTimeMillis();
             }
 
             // Make sure the connection is kept alive.
-            commandChannel.sendCommand(new WatchdogCommand());
+            if ((System.currentTimeMillis() - lastCommandTime) > WATCHDOG_INTERVAL) {
+                commandChannel.sendCommand(new WatchdogCommand());
+                lastCommandTime = System.currentTimeMillis();
+            }
         }
 
         commandChannel.resetSequenceNumber();
