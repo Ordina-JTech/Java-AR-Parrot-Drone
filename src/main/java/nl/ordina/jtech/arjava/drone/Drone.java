@@ -1,6 +1,7 @@
 package nl.ordina.jtech.arjava.drone;
 
 import javafx.scene.image.ImageView;
+import nl.ordina.jtech.arjava.deeplearning.DeepLearning;
 import nl.ordina.jtech.arjava.gui.DroneControlFeedback;
 import nl.ordina.jtech.arjava.gui.UltrasonicData;
 import nl.ordina.jtech.arjava.video.VideoReceiver;
@@ -11,18 +12,24 @@ public class Drone {
     private RemoteController remoteController;
     private VideoReceiver videoReceiver;
     private SensorDataReceiver sensorDataReceiver;
+    private NavDataReceiver navDataReceiver;
+    private DeepLearning deepLearning;
     private boolean connectedToDrone;
     private boolean inManualControl;
     private Thread communicationThread;
     private Thread remoteControlThread;
     private Thread videoReceiverThread;
     private Thread sensorDataThread;
+    private Thread navDataThread;
+    private Thread deepLearningThread;
 
     public Drone() {
         commandDispatcher = new CommandDispatcher();
         remoteController = new RemoteController(commandDispatcher);
         videoReceiver = new VideoReceiver();
         sensorDataReceiver = new SensorDataReceiver();
+        navDataReceiver = new NavDataReceiver();
+        deepLearning = new DeepLearning();
         connectedToDrone = false;
     }
 
@@ -59,6 +66,9 @@ public class Drone {
             commandDispatcher.enable();
             communicationThread = new Thread(commandDispatcher);
             communicationThread.start();
+            navDataThread = new Thread(navDataReceiver);
+            navDataThread.start();
+            commandDispatcher.sendConfigCommand("general:navdata_demo", "FALSE");
             connectedToDrone = true;
         }
     }
@@ -68,10 +78,14 @@ public class Drone {
         disableManualControl();
         stopUltrasonicData();
         commandDispatcher.disable();
+        navDataReceiver.requestStop();
 
         try {
             if (communicationThread != null) {
                 communicationThread.join(3000);
+            }
+            if (navDataThread != null) {
+                navDataThread.join(3000);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -141,6 +155,26 @@ public class Drone {
         try {
             if (sensorDataThread != null) {
                 sensorDataThread.join(3000);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void startDeepLearning() {
+        videoReceiver.setDeepLearning(deepLearning);
+        videoReceiver.enableDeepLearning();
+        deepLearningThread = new Thread(deepLearning);
+        deepLearningThread.start();
+    }
+
+    public void stopDeepLearning() {
+        videoReceiver.disableDeepLearning();
+        deepLearning.requestStop();
+
+        try {
+            if (deepLearningThread != null) {
+                deepLearningThread.join(3000);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

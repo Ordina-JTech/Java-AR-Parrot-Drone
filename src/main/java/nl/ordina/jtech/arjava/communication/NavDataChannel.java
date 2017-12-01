@@ -3,24 +3,26 @@ package nl.ordina.jtech.arjava.communication;
 import java.io.IOException;
 import java.net.*;
 
-public class SensorDataChannel {
-    private static final int HOST_PORT = 33333;
-    private static final int CLIENT_PORT = 33333;
+public class NavDataChannel {
+    private static final int HOST_PORT = 5554;
+    private static final int CLIENT_PORT = 5554;
     private static final String HOST_ADDRESS = "192.168.1.1";
+    private static final String MULTICAST_ADDRESS = "224.1.1.1";
     private static final int bufferSize = 1024;
-    private DatagramSocket clientSocket;
+    private MulticastSocket clientSocket;
 
-    public SensorDataChannel() {
+    public NavDataChannel() {
         try {
-            clientSocket = new DatagramSocket(CLIENT_PORT);
-        } catch (SocketException e) {
+            clientSocket = new MulticastSocket(CLIENT_PORT);
+            clientSocket.joinGroup(InetAddress.getByName(MULTICAST_ADDRESS));
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    // Subscribing works by sending a packet to the drone on the right port.
-    public void subscribe() {
-        byte[] data = "somebytes".getBytes();
+    public void initiateNavDataReception() {
+        byte[] data = new byte[] {0x01, 0x00, 0x00, 0x00};
+
         try {
             DatagramPacket packet = new DatagramPacket(data, data.length,
                     InetAddress.getByName(HOST_ADDRESS), HOST_PORT);
@@ -28,17 +30,16 @@ public class SensorDataChannel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Attempted to subscribe to ultrasonic data.");
     }
 
-    public String readMessage() {
+    public byte[] readNavData() {
         byte[] receiveData = new byte[bufferSize];
         DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
         try {
             clientSocket.setSoTimeout(500);
             clientSocket.receive(receivePacket);
         } catch (IOException e) {
-            if (!(e instanceof  SocketTimeoutException)) {
+            if (!(e instanceof SocketTimeoutException)) {
                 e.printStackTrace();
             }
         }
@@ -46,6 +47,6 @@ public class SensorDataChannel {
         byte[] actualData = new byte[receivePacket.getLength()];
         System.arraycopy(receivePacket.getData(), receivePacket.getOffset(),
                 actualData, 0, receivePacket.getLength());
-        return new String(actualData);
+        return actualData;
     }
 }

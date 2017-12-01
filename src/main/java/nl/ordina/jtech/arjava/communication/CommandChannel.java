@@ -32,7 +32,7 @@ public class CommandChannel {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        System.out.println("Sent: " + command.getCommandString());
+        //System.out.println("Sent: " + command.getCommandString());
     }
 
     private long getNextSequenceNumber() {

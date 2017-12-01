@@ -55,4 +55,8 @@ public class CommandDispatcher implements Runnable {
     public void sendProgressiveCommand(float roll, float pitch, float gaz, float rotate) {
         commandQueue.add(new ProgressiveCommand(ControlMode.Progressive, roll, pitch, gaz, rotate));
     }
+
+    public void sendConfigCommand(String configurationOption, String configurationValue) {
+        commandQueue.add(new ConfigurationCommand(configurationOption, configurationValue));
+    }
 }

@@ -24,6 +24,8 @@ public class FXMLController {
     @FXML private Button inputLand;
     @FXML private Button inputStartCamera;
     @FXML private Button inputStopCamera;
+    @FXML private Button inputStartDetection;
+    @FXML private Button inputStopDetection;
     @FXML private Label labelRotateCounterClockwise;
     @FXML private Label labelMoveForward;
     @FXML private Label labelRotateClockwise;
@@ -71,6 +73,8 @@ public class FXMLController {
         inputLand.setDisable(false);
         inputStartCamera.setDisable(false);
         inputStopCamera.setDisable(false);
+        inputStartDetection.setDisable(false);
+        inputStopDetection.setDisable(false);
         ultrasonicData = new UltrasonicData(labelUltrasonicFront, labelUltrasonicLeft,
                 labelUltrasonicRight, labelUltrasonicBack, labelUltrasonicTop);
         droneControlFeedback = new DroneControlFeedback(labelRotateCounterClockwise,
@@ -93,6 +97,8 @@ public class FXMLController {
         inputLand.setDisable(true);
         inputStartCamera.setDisable(true);
         inputStopCamera.setDisable(true);
+        inputStartDetection.setDisable(true);
+        inputStopDetection.setDisable(true);
     }
 
     @FXML
@@ -183,5 +189,15 @@ public class FXMLController {
     @FXML
     private void inputStopCamera() {
         drone.stopCamera();
+    }
+
+    @FXML
+    private void inputStartDetection() {
+        drone.startDeepLearning();
+    }
+
+    @FXML
+    private void inputStopDetection() {
+        drone.stopDeepLearning();
     }
 }

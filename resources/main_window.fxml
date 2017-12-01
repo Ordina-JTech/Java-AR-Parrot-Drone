@@ -15,6 +15,8 @@
     <Button fx:id="inputLand" disable="true" layoutX="440.0" layoutY="20.0" onAction="#inputDroneLand" prefHeight="47.0" prefWidth="120.0" text="Land" />
     <Button fx:id="inputStartCamera" disable="true" layoutX="580.0" layoutY="20.0" onAction="#inputStartCamera" prefHeight="47.0" prefWidth="120.0" text="Start Camera" />
     <Button fx:id="inputStopCamera" disable="true" layoutX="720.0" layoutY="20.0" onAction="#inputStopCamera" prefHeight="47.0" prefWidth="120.0" text="Stop Camera" />
+    <Button fx:id="inputStartDetection" disable="true" layoutX="860.0" layoutY="20.0" onAction="#inputStartDetection" prefHeight="47.0" prefWidth="120.0" text="Start Detection" />
+    <Button fx:id="inputStopDetection" disable="true" layoutX="1000.0" layoutY="20.0" onAction="#inputStopDetection" prefHeight="47.0" prefWidth="120.0" text="Stop Detection" />
    <CheckBox fx:id="checkboxManualControl" disable="true" layoutX="21.0" layoutY="84.0" mnemonicParsing="false" onAction="#inputManualControl" text="Manual control" />
     <Label alignment="CENTER_RIGHT" layoutX="20.0" layoutY="128.0" text="Drone Control Status">
         <font>

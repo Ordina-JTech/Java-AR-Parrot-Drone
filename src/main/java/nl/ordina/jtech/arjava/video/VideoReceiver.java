@@ -6,6 +6,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import nl.ordina.jtech.arjava.communication.VideoChannel;
+import nl.ordina.jtech.arjava.deeplearning.DeepLearning;
 
 import java.awt.image.BufferedImage;
 
@@ -13,6 +14,9 @@ public class VideoReceiver implements Runnable {
     private VideoChannel videoChannel;
     private IContainer container;
     private boolean stopRequested;
+    private DeepLearning deepLearning;
+    private boolean useDeepLearning;
+
     private ImageView imageView;
 
     public VideoReceiver() {
@@ -25,6 +29,7 @@ public class VideoReceiver implements Runnable {
 
     public void run() {
         stopRequested = false;
+        disableDeepLearning();
         videoChannel.connectToDrone();
 
         container = IContainer.make();
@@ -128,6 +133,10 @@ public class VideoReceiver implements Runnable {
 
                         final BufferedImage javaImage = Utils.videoPictureToImage(newPic);
 
+                        if (useDeepLearning) {
+                            deepLearning.addImage(javaImage);
+                        }
+
                         Platform.runLater(new Runnable() {
                             public void run() {
                                 imageView.setImage(SwingFXUtils.toFXImage(javaImage, null));
@@ -158,5 +167,17 @@ public class VideoReceiver implements Runnable {
 
     public void requestStop() {
         stopRequested = true;
+    }
+
+    public void enableDeepLearning() {
+        useDeepLearning = true;
+    }
+
+    public void disableDeepLearning() {
+        useDeepLearning = false;
+    }
+
+    public void setDeepLearning(DeepLearning deepLearning) {
+        this.deepLearning = deepLearning;
     }
 }
