@@ -1,5 +1,6 @@
 package nl.ordina.jtech.arjava.drone;
 
+import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import nl.ordina.jtech.arjava.deeplearning.DeepLearning;
 import nl.ordina.jtech.arjava.gui.DroneControlFeedback;
@@ -43,6 +44,10 @@ public class Drone {
 
     public void setDroneControlFeedback(DroneControlFeedback droneControlFeedback) {
         remoteController.setDroneControlFeedback(droneControlFeedback);
+    }
+
+    public void setDetectionOuputFeedback(TextArea textArea) {
+        deepLearning.setOutputDetections(textArea);
     }
 
     public void setRequestedPitch(float requestedPitch) {

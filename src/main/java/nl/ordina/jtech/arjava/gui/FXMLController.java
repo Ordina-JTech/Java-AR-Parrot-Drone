@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -42,6 +43,7 @@ public class FXMLController {
     @FXML private Label labelUltrasonicRight;
     @FXML private Label labelUltrasonicBack;
     @FXML private Label labelUltrasonicTop;
+    @FXML private TextArea outputDetections;
 
 
     public FXMLController() {
@@ -81,6 +83,7 @@ public class FXMLController {
                 labelMoveForward, labelRotateClockwise, labelIncreaseHeight,
                 labelMoveLeft, labelMoveBackwards, labelMoveRight, labelDecreaseHeight);
         drone.setDroneControlFeedback(droneControlFeedback);
+        drone.setDetectionOuputFeedback(outputDetections);
     }
 
     @FXML

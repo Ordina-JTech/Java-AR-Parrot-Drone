@@ -1,5 +1,6 @@
 package nl.ordina.jtech.arjava.deeplearning;
 
+import javafx.scene.control.TextArea;
 import org.datavec.image.loader.NativeImageLoader;
 import org.deeplearning4j.nn.graph.ComputationGraph;
 import org.deeplearning4j.util.ModelSerializer;
@@ -27,6 +28,7 @@ public class DeepLearning implements Runnable {
     private NativeImageLoader nativeImageLoader;
     private Deque<BufferedImage> images;
     private boolean stopRequested;
+    private TextArea outputDetections;
 
     public DeepLearning() {
         this.nativeImageLoader = new NativeImageLoader(HEIGHT, WIDTH, CHANNELS);
@@ -52,6 +54,7 @@ public class DeepLearning implements Runnable {
                 e.printStackTrace();
             }
         }
+        outputDetections.clear();
     }
 
     public synchronized void addImage(BufferedImage image) {
@@ -78,9 +81,9 @@ public class DeepLearning implements Runnable {
     public void loadDataModel() {
         try {
             if (computationGraphVGG16 == null) {
-                System.out.println("Loading data model.");
+                outputDetections.setText("Loading data model");
                 computationGraphVGG16 = ModelSerializer.restoreComputationGraph("resources/VGG16.zip");
-                System.out.println("Data model loaded.");
+                outputDetections.setText("Data model loaded");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -138,11 +141,12 @@ public class DeepLearning implements Runnable {
      */
     void updateLabels(BufferedImage bufferedImage) {
         List<Prediction> predictionList = classify(bufferedImage);
-        // TODO feed back the predictions to GUI
+        StringBuilder sb = new StringBuilder();
         for (Prediction p : predictionList) {
-            System.out.println(p.toString());
+            sb.append(p.toString());
+            sb.append("\n");
         }
-        System.out.println("");
+        outputDetections.setText(sb.toString());
     }
 
     private void normalizeImage(final INDArray image) {
@@ -181,12 +185,6 @@ public class DeepLearning implements Runnable {
 
     }
 
-    /**
-     * Crops an image to a square for a better recognition
-     *
-     * @param bufferedImage
-     * @return
-     */
     private BufferedImage cropImageToSquare(final BufferedImage bufferedImage) {
         int minWidthHeight = Math.min(bufferedImage.getHeight(), bufferedImage.getWidth());
         int x = minWidthHeight == bufferedImage.getWidth() ? 0 : (bufferedImage.getWidth() - minWidthHeight) / 2;
@@ -196,5 +194,9 @@ public class DeepLearning implements Runnable {
 
     public void requestStop() {
         stopRequested = true;
+    }
+
+    public void setOutputDetections(TextArea outputDetections) {
+        this.outputDetections = outputDetections;
     }
 }
