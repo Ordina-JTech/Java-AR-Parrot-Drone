@@ -2,6 +2,7 @@ package nl.ordina.jtech.arjava.drone;
 
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
+import nl.ordina.jtech.arjava.AI.FlightPath;
 import nl.ordina.jtech.arjava.deeplearning.DeepLearning;
 import nl.ordina.jtech.arjava.gui.DroneControlFeedback;
 import nl.ordina.jtech.arjava.gui.UltrasonicData;
@@ -15,6 +16,7 @@ public class Drone {
     private SensorDataReceiver sensorDataReceiver;
     private NavDataReceiver navDataReceiver;
     private DeepLearning deepLearning;
+    private FlightPath flightPath;
     private boolean connectedToDrone;
     private boolean inManualControl;
     private Thread communicationThread;
@@ -23,6 +25,7 @@ public class Drone {
     private Thread sensorDataThread;
     private Thread navDataThread;
     private Thread deepLearningThread;
+    private Thread flightPathThread;
 
     public Drone() {
         commandDispatcher = new CommandDispatcher();
@@ -31,6 +34,7 @@ public class Drone {
         sensorDataReceiver = new SensorDataReceiver();
         navDataReceiver = new NavDataReceiver();
         deepLearning = new DeepLearning();
+        flightPath = new FlightPath(remoteController);
         connectedToDrone = false;
     }
 
@@ -73,7 +77,7 @@ public class Drone {
             communicationThread.start();
             navDataThread = new Thread(navDataReceiver);
             navDataThread.start();
-            commandDispatcher.sendConfigCommand("general:navdata_demo", "FALSE");
+            // commandDispatcher.sendConfigCommand("general:navdata_demo", "FALSE");
             connectedToDrone = true;
         }
     }
@@ -99,13 +103,20 @@ public class Drone {
         connectedToDrone = false;
     }
 
-    public void enableManualControl() {
+    public boolean enableManualControl() {
         if (connectedToDrone) {
+            if (flightPathThread.isAlive()) {
+                return false;
+            }
+
             remoteController.enable();
             remoteControlThread = new Thread(remoteController);
             remoteControlThread.start();
             inManualControl = true;
+            return true;
         }
+
+        return false;
     }
 
     public void disableManualControl() {
@@ -123,11 +134,11 @@ public class Drone {
     }
 
     public void takeOff() {
-        commandDispatcher.sendTakeOffCommand();
+        remoteController.takeOff();
     }
 
     public void land() {
-        commandDispatcher.sendLandCommand();
+        remoteController.land();
     }
 
     public void startCamera(ImageView imageView) {
@@ -184,5 +195,19 @@ public class Drone {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean runFlightPath() {
+        if (isInManualControl()) {
+            return false;
+        }
+
+        remoteController.enable();
+        remoteControlThread = new Thread(remoteController);
+        remoteControlThread.start();
+
+        flightPathThread = new Thread(flightPath);
+        flightPathThread.start();
+        return true;
     }
 }

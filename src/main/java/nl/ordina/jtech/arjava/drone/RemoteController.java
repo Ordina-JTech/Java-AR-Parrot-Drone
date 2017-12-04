@@ -17,6 +17,7 @@ public class RemoteController implements Runnable {
     }
 
     public void run() {
+        resetValues();
         while (remoteControlEnabled) {
             commandDispatcher.sendProgressiveCommand(
                     requestedRoll, requestedPitch, requestedGaz, requestedRotate);
@@ -26,6 +27,14 @@ public class RemoteController implements Runnable {
                 System.out.println(e.getMessage());
             }
         }
+    }
+
+    public void takeOff() {
+        commandDispatcher.sendTakeOffCommand();
+    }
+
+    public void land() {
+        commandDispatcher.sendLandCommand();
     }
 
     public void setDroneControlFeedback(DroneControlFeedback droneControlFeedback) {
@@ -97,5 +106,12 @@ public class RemoteController implements Runnable {
             droneControlFeedback.upOff();
             droneControlFeedback.downOff();
         }
+    }
+
+    private void resetValues() {
+        setRequestedPitch(0);
+        setRequestedGaz(0);
+        setRequestedRoll(0);
+        setRequestedRotate(0);
     }
 }

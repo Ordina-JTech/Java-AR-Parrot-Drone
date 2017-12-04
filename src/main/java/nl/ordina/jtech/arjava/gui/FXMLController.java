@@ -27,6 +27,7 @@ public class FXMLController {
     @FXML private Button inputStopCamera;
     @FXML private Button inputStartDetection;
     @FXML private Button inputStopDetection;
+    @FXML private Button inputFlightPath;
     @FXML private Label labelRotateCounterClockwise;
     @FXML private Label labelMoveForward;
     @FXML private Label labelRotateClockwise;
@@ -44,6 +45,7 @@ public class FXMLController {
     @FXML private Label labelUltrasonicBack;
     @FXML private Label labelUltrasonicTop;
     @FXML private TextArea outputDetections;
+    @FXML private TextArea outputLog;
 
 
     public FXMLController() {
@@ -57,11 +59,13 @@ public class FXMLController {
     @FXML
     private void inputDroneTakeOff() {
         drone.takeOff();
+        logLine("Sending take off command.");
     }
 
     @FXML
     private void inputDroneLand() {
         drone.land();
+        logLine("Sending land command.");
     }
 
     @FXML
@@ -77,6 +81,7 @@ public class FXMLController {
         inputStopCamera.setDisable(false);
         inputStartDetection.setDisable(false);
         inputStopDetection.setDisable(false);
+        inputFlightPath.setDisable(false);
         ultrasonicData = new UltrasonicData(labelUltrasonicFront, labelUltrasonicLeft,
                 labelUltrasonicRight, labelUltrasonicBack, labelUltrasonicTop);
         droneControlFeedback = new DroneControlFeedback(labelRotateCounterClockwise,
@@ -84,6 +89,7 @@ public class FXMLController {
                 labelMoveLeft, labelMoveBackwards, labelMoveRight, labelDecreaseHeight);
         drone.setDroneControlFeedback(droneControlFeedback);
         drone.setDetectionOuputFeedback(outputDetections);
+        logLine("Connected to drone.");
     }
 
     @FXML
@@ -102,14 +108,22 @@ public class FXMLController {
         inputStopCamera.setDisable(true);
         inputStartDetection.setDisable(true);
         inputStopDetection.setDisable(true);
+        inputFlightPath.setDisable(true);
+        logLine("Disconnected from drone.");
     }
 
     @FXML
     private void inputManualControl() {
         if (checkboxManualControl.isSelected()) {
-            drone.enableManualControl();
+            if (!drone.enableManualControl()) {
+                checkboxManualControl.setSelected(false);
+                logLine("Cannot enable manual control, flight path may still be running.");
+            } else {
+                logLine("Manual control enabled.");
+            }
         } else {
             drone.disableManualControl();
+            logLine("Manual control disabled.");
         }
     }
 
@@ -187,20 +201,41 @@ public class FXMLController {
     @FXML
     private void inputStartCamera() {
         drone.startCamera(imageViewCamera);
+        logLine("Starting camera.");
+
     }
 
     @FXML
     private void inputStopCamera() {
         drone.stopCamera();
+        logLine("Stopping camera.");
     }
 
     @FXML
     private void inputStartDetection() {
         drone.startDeepLearning();
+        logLine("Starting deep learning.");
     }
 
     @FXML
     private void inputStopDetection() {
         drone.stopDeepLearning();
+        logLine("Stopping deep learning.");
+    }
+
+    @FXML
+    private void inputRunFlightPath() {
+        if (checkboxManualControl.isSelected()) {
+            logLine("Cannot run flight path in manual control.");
+        } else {
+            drone.runFlightPath();
+            logLine("Running flight path.");
+        }
+
+    }
+
+    private void logLine(String line) {
+        outputLog.setText(outputLog.getText() + line + "\n");
+        outputLog.setScrollTop(Integer.MAX_VALUE);
     }
 }
